@@ -7,6 +7,7 @@
 
 <!-- Premium Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 <style>
   :root{
@@ -399,14 +400,14 @@
   </section>
 
   <!-- ALUMNI DIRECTORY (sample) -->
-  <section id="alumni">
+  <!--<section id="alumni">
     <div class="container">
       <div class="section-head">
         <div>
           <div class="tag">Directory</div>
           <h2>Distinguished Class of ’86</h2>
         </div>
-        <!--<p>Searchable profiles in the full build. Below: sample presentation cards with titles and expertise tags.</p>-->
+        <!--<p>Searchable profiles in the full build. Below: sample presentation cards with titles and expertise tags.</p>
       </div>
 
       <div class="grid">
@@ -455,7 +456,112 @@
         </article>
       </div>
     </div>
+  </section>-->
+
+  <section id="alumni">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Directory</div>
+          <h2>Distinguished Class of ’86</h2>
+        </div>
+      </div>
+
+      <!-- Swiper container -->
+      <div class="swiper alumni-swiper">
+        <div class="swiper-wrapper">
+
+          <!-- Each alumni card becomes a swiper-slide -->
+          <div class="swiper-slide">
+            <article class="person shine">
+              <img alt="Alumni A" src="assets/alumni1.jpg">
+              <div class="meta">
+                <div class="title">Justice A. Example</div>
+                <div class="role">Justice, Court of Appeal</div>
+                <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                  <span class="pill">Appellate</span><span class="pill">Judicial Ethics</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="person">
+              <img alt="Alumni B" src="assets/alumni2.jpg">
+              <div class="meta">
+                <div class="title">Chioma Example</div>
+                <div class="role">General Counsel, Group</div>
+                <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                  <span class="pill">Corporate</span><span class="pill">Governance</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="person">
+              <img alt="Alumni C" src="assets/alumni3.jpg">
+              <div class="meta">
+                <div class="title">A. Counsel, SAN</div>
+                <div class="role">Senior Advocate of Nigeria</div>
+                <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                  <span class="pill">Arbitration</span><span class="pill">Energy Law</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="person">
+              <img alt="Alumni D" src="assets/alumni4.jpg">
+              <div class="meta">
+                <div class="title">Tunde Example</div>
+                <div class="role">Public Interest Advocate</div>
+                <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                  <span class="pill">Human Rights</span><span class="pill">Constitutional Law</span>
+                </div>
+              </div>
+            </article>
+          </div>
+
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <!-- Pagination dots -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
   </section>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.alumni-swiper', {
+      slidesPerView: 3,      // show 3 alumni at once
+      spaceBetween: 20,
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        0: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 }
+      }
+    });
+  </script>
 
   <!-- IN MEMORIAM -->
   <section id="memoriam">
