@@ -530,8 +530,8 @@
         </div>
 
         <!-- Navigation buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <!--<div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>-->
 
         <!-- Pagination dots -->
         <div class="swiper-pagination"></div>
@@ -741,6 +741,8 @@
   document.addEventListener('keydown', (e)=>{
     if(lightbox.getAttribute('aria-hidden')==='false'){
       if(e.key==='Escape') closeLightbox();
+      if(e.key==='ArrowRight') next();
+      <!--if(e.key==='ArrowLeft') prev();-->
     }
   });
 </script>
