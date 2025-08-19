@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nigerian Law School Class of ’86 — E‑Museum</title>
+
+<!-- Premium Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0c10;
+    --panel:#121318;
+    --ink:#e9ecef;
+    --muted:#a9afbb;
+    --gold:#d4af37;
+    --gold-2:#b8891e;
+    --line:#2a2d36;
+    --glow:0 10px 30px rgba(0,0,0,.45);
+    --radius:16px;
+    --speed:.6s;
+  }
+
+  /* Reset & base */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:radial-gradient(1200px 600px at 70% -10%,#151622 0%,#0e0f14 40%,var(--bg) 100%);
+    color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+    line-height:1.6;
+  }
+  img,video{max-width:100%;display:block}
+  a{color:inherit;text-decoration:none}
+  .container{width:min(1200px,90vw);margin:auto}
+  .tag{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  /* Top nav */
+  header{
+    position:fixed;inset:0 0 auto 0;height:72px;z-index:50;
+    display:flex;align-items:center;backdrop-filter:saturate(140%) blur(8px);
+    background:linear-gradient(180deg,rgba(10,10,12,.75),rgba(10,10,12,.35));
+    border-bottom:1px solid #1a1b22;
+  }
+  header .container{display:flex;align-items:center;justify-content:space-between}
+  .brand{
+    display:flex;gap:14px;align-items:center;font-weight:600;letter-spacing:.02em
+  }
+  .crest{
+    width:40px;height:40px;border-radius:50%;
+    background:conic-gradient(from 210deg at 50% 50%,#2a2a31, #3a2a10,#2a2a31);
+    border:1px solid #2b2b30; box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+    position:relative;overflow:hidden
+  }
+  .crest:after{ /* subtle “scales of justice” hint */
+    content:"⚖";position:absolute;inset:0;display:grid;place-items:center;
+    color:var(--gold);filter:drop-shadow(0 0 8px rgba(212,175,55,.35))
+  }
+  nav a{padding:10px 14px;border-radius:10px;color:#ccd1dc;font-weight:500}
+  nav a:hover{background:#171922}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:12px 18px;border-radius:999px;border:1px solid rgba(212,175,55,.42);
+    background:linear-gradient(135deg,var(--gold),var(--gold-2));
+    color:#0b0b0d;font-weight:700;letter-spacing:.02em;
+    box-shadow:0 10px 28px rgba(212,175,55,.25), inset 0 1px 0 rgba(255,255,255,.5);
+    transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    cursor:pointer
+  }
+  .btn:hover{transform:translateY(-1px);filter:saturate(1.05)}
+  .btn.ghost{
+    background:linear-gradient(180deg,rgba(22,23,29,.6),rgba(18,19,24,.6));
+    color:#e8e9ef;border-color:#2a2d36;box-shadow:var(--glow)
+  }
+  .spacer{height:72px} /* header offset */
+
+  /* HERO */
+  .hero{
+    position:relative;min-height:86vh;display:grid;place-items:center;
+    overflow:hidden;border-bottom:1px solid #171922
+  }
+  .hero video{
+    position:absolute;inset:-10% -10% -10% -10%;width:120%;height:120%;
+    object-fit:cover;filter:grayscale(.2) brightness(.55) contrast(1.1) saturate(1.1)
+  }
+  .hero:after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(800px 400px at 10% 10%,rgba(212,175,55,.08),transparent 50%),
+      linear-gradient(180deg,rgba(4,4,7,.8),rgba(8,8,10,.6) 35%,rgba(8,8,10,.85));
+  }
+  .hero .wrap{position:relative;z-index:2;text-align:center;padding:12vh 0}
+  .eyebrow{color:var(--gold);letter-spacing:.25em;text-transform:uppercase;font-size:.9rem}
+  .display{
+    font-family:"Playfair Display",serif;
+    font-weight:700;letter-spacing:.01em;line-height:1.05;
+    margin:14px auto 16px;max-width:14ch;
+    font-size:clamp(2.2rem, 6vw, 4.2rem)
+  }
+  .subtitle{color:#c8ceda;max-width:60ch;margin:0 auto 28px}
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+  /* Section base */
+  section{padding:90px 0;border-bottom:1px solid #171922}
+  h2{
+    font-family:"Playfair Display",serif;font-weight:700;
+    font-size:clamp(1.6rem,3.4vw,2.4rem);letter-spacing:.01em;margin:4px 0 10px
+  }
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
+  .section-head p{color:var(--muted);max-width:70ch}
+
+  /* VIRTUAL TOUR (carousel-style lightbox trigger grid) */
+  .tour-grid{
+    display:grid;gap:14px;
+    grid-template-columns:repeat(12,1fr)
+  }
+  .tile{
+    position:relative;border-radius:18px;overflow:hidden;
+    background:#101117;border:1px solid #1a1b22;box-shadow:var(--glow);
+    cursor:pointer;min-height:210px;transition:transform .35s ease, box-shadow .35s ease
+  }
+  .tile:hover{transform:translateY(-3px)}
+  .tile img,.tile video{width:100%;height:100%;object-fit:cover;filter:brightness(.88)}
+  .tile:after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent,rgba(8,9,12,.8) 82%)
+  }
+  .tile .label{
+    position:absolute;inset:auto 14px 12px 14px;z-index:2;
+    font-weight:600;display:flex;align-items:center;gap:10px
+  }
+  .tile .badge{padding:6px 10px;border-radius:999px;background:rgba(212,175,55,.14);border:1px solid rgba(212,175,55,.35);color:var(--gold);font-size:.78rem}
+
+  /* Masonry gallery */
+  .masonry{
+    columns:1 320px;column-gap:16px
+  }
+  .card{
+    break-inside:avoid;border-radius:18px;overflow:hidden;margin:0 0 16px;
+    background:linear-gradient(180deg,#14151c,#101116);
+    border:1px solid #1b1e27; box-shadow:var(--glow)
+  }
+  .card figure{margin:0}
+  .card img{width:100%;display:block}
+  .card .meta{padding:14px 16px}
+  .meta .title{font-weight:600}
+  .meta .caption{color:var(--muted);font-size:.92rem}
+
+  /* Timeline */
+  .timeline{
+    position:relative;padding-top:10px
+  }
+  .timeline:before{
+    content:"";position:absolute;left:calc(50% - 1px);top:0;bottom:0;width:2px;background:linear-gradient(var(--gold),transparent 30%,transparent 70%,var(--gold))
+  }
+  .milestone{
+    position:relative;display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin:42px 0
+  }
+  .milestone .dot{
+    position:absolute;left:50%;top:10px;transform:translate(-50%,-50%);
+    width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(212,175,55,.08), 0 0 18px rgba(212,175,55,.5)
+  }
+  .milestone .panel{
+    background:linear-gradient(180deg,#14151c,#0f1016);
+    border:1px solid #1b1e27;border-radius:16px;padding:18px 18px 16px;box-shadow:var(--glow)
+  }
+  .milestone h3{margin:0 0 6px;font-family:"Playfair Display",serif;color:var(--gold)}
+
+  /* Alumni directory */
+  .grid{
+    display:grid;gap:18px;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr))
+  }
+  .person{
+    background:linear-gradient(180deg,#151622,#0f1016);
+    border:1px solid #1b1e27;border-radius:18px;overflow:hidden;box-shadow:var(--glow);
+    transition:transform .25s ease
+  }
+  .person:hover{transform:translateY(-4px)}
+  .person img{aspect-ratio:4/5;object-fit:cover;width:100%}
+  .person .meta{padding:14px}
+  .role{color:var(--muted);font-size:.9rem}
+  .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #252836;color:#cfd3de;font-size:.78rem}
+
+  /* Memoriam */
+  .memoriam{
+    display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))
+  }
+  .candle{
+    position:relative;isolation:isolate;
+    background:radial-gradient(80% 70% at 50% 10%,rgba(212,175,55,.08),#101116);
+    border:1px solid #1b1e27;border-radius:16px;padding:16px;box-shadow:var(--glow);text-align:center
+  }
+  .candle:before{
+    content:"";position:absolute;inset:auto 0 0 0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.35
+  }
+  .candle .flame{font-size:1.2rem;filter:drop-shadow(0 0 6px rgba(212,175,55,.6))}
+  .candle .name{font-weight:600;margin-top:8px}
+  .candle .years{color:var(--muted);font-size:.9rem}
+
+  /* Stories / guestbook */
+  .stories{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+  .story{
+    background:linear-gradient(180deg,#151622,#0f1016);
+    border:1px solid #1b1e27;border-radius:16px;padding:16px;box-shadow:var(--glow)
+  }
+  .story .author{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+  .avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid #262a34}
+
+  /* Footer */
+  footer{padding:30px 0;color:var(--muted);font-size:.95rem;text-align:center}
+
+  /* Animations */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  .shine{
+    position:relative;overflow:hidden
+  }
+  .shine:after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.14) 50%,transparent 70%);
+    transform:translateX(-120%);transition:transform .9s ease
+  }
+  .shine:hover:after{transform:translateX(120%)}
+
+  @media (max-width:900px){
+    .milestone{grid-template-columns:1fr}
+    .timeline:before{left:16px}
+    .milestone .dot{left:16px;transform:none}
+  }
+</style>
+</head>
+<body>
+  <!-- NAV -->
+  <header aria-label="Main navigation">
+    <div class="container">
+      <div class="brand">
+        <div class="crest" aria-hidden="true"></div>
+        <div>NLS Class of ’86 • E‑Museum</div>
+      </div>
+      <nav>
+        <a href="#tour">Virtual Tour</a>
+        <a href="#gallery">Galleries</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#alumni">Alumni</a>
+        <a href="#memoriam">In Memoriam</a>
+        <a href="#stories">Stories</a>
+        <a class="btn ghost" href="#guestbook">Guestbook</a>
+      </nav>
+    </div>
+  </header>
+  <div class="spacer" aria-hidden="true"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <!-- Replace video src with your archival montage -->
+    <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop">
+      <source src="https://cdn.coverr.co/videos/coverr-books-stand-8565/1080p.mp4" type="video/mp4">
+    </video>
+    <div class="wrap container">
+      <div class="eyebrow">Since 1986 • Lagos • Abuja • Enugu • Kano</div>
+      <h1 class="display">A Living Archive of the Nigerian Law School Class of ’86</h1>
+      <p class="subtitle">Photographs, films, yearbooks, landmark cases, careers and friendships that shaped generations. Curated for alumni, students and the wider legal community.</p>
+      <div class="hero-cta">
+        <button class="btn" data-open-tour>Start Virtual Tour</button>
+        <a class="btn ghost" href="#gallery">Explore Exhibits</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIRTUAL TOUR (grid that opens lightbox) -->
+  <section id="tour">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Virtual Tour</div>
+          <h2>Walk the halls — photos and films</h2>
+        </div>
+        <p>Click any tile to launch the immersive tour. Use ◀ ▶ or tap to navigate. Mix of photos, scanned pages, and short clips.</p>
+      </div>
+
+      <div class="tour-grid">
+        <!-- big tile -->
+        <div class="tile shine" style="grid-column:span 6" data-media="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1600&auto=format&fit=crop" data-caption="Auditorium — Opening address, 1986">
+          <img alt="Auditorium" src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1200&auto=format&fit=crop" />
+          <div class="label"><span class="badge">Photo</span> Auditorium, 1986</div>
+        </div>
+        <div class="tile" style="grid-column:span 3" data-media="https://videos.pexels.com/video-files/3061673/3061673-hd_1920_1080_30fps.mp4" data-type="video" data-caption="Convocation newsreel (excerpt)">
+          <video muted autoplay loop playsinline src="https://videos.pexels.com/video-files/3061673/3061673-hd_1920_1080_30fps.mp4"></video>
+          <div class="label"><span class="badge">Video</span> Convocation reel</div>
+        </div>
+        <div class="tile" style="grid-column:span 3" data-media="https://images.unsplash.com/photo-1516383607781-913a19294fd1?q=80&w=1200&auto=format&fit=crop" data-caption="Library reading room, late evening study">
+          <img alt="Library" src="https://images.unsplash.com/photo-1516383607781-913a19294fd1?q=80&w=1200&auto=format&fit=crop" />
+          <div class="label"><span class="badge">Photo</span> Library</div>
+        </div>
+
+        <div class="tile" style="grid-column:span 4" data-media="https://images.unsplash.com/photo-1517976487492-57699fe2f529?q=80&w=1200&auto=format&fit=crop" data-caption="Moot court session — practice makes perfect">
+          <img alt="Moot court" src="https://images.unsplash.com/photo-1517976487492-57699fe2f529?q=80&w=1200&auto=format&fit=crop" />
+          <div class="label"><span class="badge">Photo</span> Moot Court</div>
+        </div>
+        <div class="tile" style="grid-column:span 4" data-media="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1200&auto=format&fit=crop" data-caption="Computer room — the early days">
+          <img alt="Computer room" src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1200&auto=format&fit=crop" />
+          <div class="label"><span class="badge">Scan</span> Tech Lab</div>
+        </div>
+        <div class="tile" style="grid-column:span 4" data-media="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" data-type="video" data-caption="Reunion highlights (B‑roll)">
+          <video muted autoplay loop playsinline src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4"></video>
+          <div class="label"><span class="badge">Video</span> Reunion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERIES (masonry) -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Exhibits</div>
+          <h2>Photos, yearbooks & documents</h2>
+        </div>
+        <p>High‑resolution scans grouped by themes. Click to view in the tour lightbox; captions carry people, places, dates.</p>
+      </div>
+
+      <div class="masonry">
+        <!-- Repeatable card -->
+        <article class="card shine" data-media="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1600&auto=format&fit=crop" data-caption="Class portrait — Main campus, 1986">
+          <figure><img alt="Class portrait" src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1200&auto=format&fit=crop"></figure>
+          <div class="meta">
+            <div class="title">Class Portrait</div>
+            <div class="caption">Main campus, 1986</div>
+          </div>
+        </article>
+
+        <article class="card" data-media="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1600&auto=format&fit=crop" data-caption="Yearbook — Editorial page">
+          <figure><img alt="Yearbook scan" src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1200&auto=format&fit=crop"></figure>
+          <div class="meta">
+            <div class="title">Yearbook Scan</div>
+            <div class="caption">Editorial page</div>
+          </div>
+        </article>
+
+        <article class="card" data-media="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1600&auto=format&fit=crop" data-caption="Lecture halls — morning light">
+          <figure><img alt="Lecture halls" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1200&auto=format&fit=crop"></figure>
+          <div class="meta">
+            <div class="title">Campus Life</div>
+            <div class="caption">Lecture halls</div>
+          </div>
+        </article>
+
+        <article class="card" data-media="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1600&auto=format&fit=crop" data-caption="Legal memo — landmark case (redacted)">
+          <figure><img alt="Legal memo" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop"></figure>
+          <div class="meta">
+            <div class="title">Archival Document</div>
+            <div class="caption">Landmark case (excerpt)</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Milestones</div>
+          <h2>From 1986 to today</h2>
+        </div>
+        <p>Key moments, reunions, appointments, publications and service. Entries expand in the virtual tour.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="milestone reveal">
+          <span class="dot" aria-hidden="true"></span>
+          <div class="panel"><h3>1986 — Call to Bar</h3><p>Graduation and call to bar ceremonies across campuses; many commenced pupillage and NYSC placements nationwide.</p></div>
+          <div></div>
+        </div>
+        <div class="milestone reveal">
+          <span class="dot" aria-hidden="true"></span>
+          <div></div>
+          <div class="panel"><h3>1996 — 10‑Year Reunion</h3><p>Celebrations, scholarships initiated for indigent students, and the first alumni directory compiled.</p></div>
+        </div>
+        <div class="milestone reveal">
+          <span class="dot" aria-hidden="true"></span>
+          <div class="panel"><h3>2016 — Bench & Silk</h3><p>Multiple members elevated to the Bench; several conferred SAN, recognized for service and advocacy.</p></div>
+          <div></div>
+        </div>
+        <div class="milestone reveal">
+          <span class="dot" aria-hidden="true"></span>
+          <div></div>
+          <div class="panel"><h3>2024—2025 — Endowments</h3><p>Laboratories and libraries endowed; mentoring programmes expanded across law faculties in Nigeria.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALUMNI DIRECTORY (sample) -->
+  <section id="alumni">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Directory</div>
+          <h2>Distinguished Class of ’86</h2>
+        </div>
+        <p>Searchable profiles in the full build. Below: sample presentation cards with titles and expertise tags.</p>
+      </div>
+
+      <div class="grid">
+        <article class="person shine" data-media="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1200&auto=format&fit=crop" data-caption="Alumni portrait">
+          <img alt="Alumni A" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop">
+          <div class="meta">
+            <div class="title">Justice A. Example</div>
+            <div class="role">Justice, Court of Appeal</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <span class="pill">Appellate</span><span class="pill">Judicial Ethics</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="person" data-media="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=1200&auto=format&fit=crop" data-caption="Senior Advocate">
+          <img alt="Alumni B" src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=800&auto=format&fit=crop">
+          <div class="meta">
+            <div class="title">A. Counsel, SAN</div>
+            <div class="role">Senior Advocate of Nigeria</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <span class="pill">Arbitration</span><span class="pill">Energy Law</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="person" data-media="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop" data-caption="Corporate counsel">
+          <img alt="Alumni C" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop">
+          <div class="meta">
+            <div class="title">Chioma Example</div>
+            <div class="role">General Counsel, Group</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <span class="pill">Corporate</span><span class="pill">Governance</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="person" data-media="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1200&auto=format&fit=crop" data-caption="Public interest advocate">
+          <img alt="Alumni D" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop">
+          <div class="meta">
+            <div class="title">Tunde Example</div>
+            <div class="role">Public Interest Advocate</div>
+            <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+              <span class="pill">Human Rights</span><span class="pill">Constitutional Law</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- IN MEMORIAM -->
+  <section id="memoriam">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">In Memoriam</div>
+          <h2>We remember with gratitude</h2>
+        </div>
+        <p>Tributes and candles for classmates who have passed on. In the full site, families can submit memories and photographs.</p>
+      </div>
+
+      <div class="memoriam">
+        <div class="candle shine" data-media="https://images.unsplash.com/photo-1491975474562-1f4e30bc9468?q=80&w=1200&auto=format&fit=crop" data-caption="Tribute photo">
+          <div class="flame">🕯</div>
+          <div class="name">Name Surname</div>
+          <div class="years">1962 — 2022</div>
+        </div>
+        <div class="candle">
+          <div class="flame">🕯</div>
+          <div class="name">Name Surname</div>
+          <div class="years">1961 — 2019</div>
+        </div>
+        <div class="candle">
+          <div class="flame">🕯</div>
+          <div class="name">Name Surname</div>
+          <div class="years">1963 — 2021</div>
+        </div>
+        <div class="candle">
+          <div class="flame">🕯</div>
+          <div class="name">Name Surname</div>
+          <div class="years">1960 — 2018</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIES & GUESTBOOK -->
+  <section id="stories">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Stories & Testimonials</div>
+          <h2>Memories in their own words</h2>
+        </div>
+        <p>In production: authenticated submissions (text/video), moderation, and tagging. Below are demo entries.</p>
+      </div>
+
+      <div class="stories">
+        <article class="story">
+          <div class="author">
+            <img class="avatar" src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200&auto=format&fit=crop" alt="">
+            <div><strong>F. Example</strong><div class="role">Alumni, Litigation</div></div>
+          </div>
+          <p>“The moot court sessions forged confidence that carried into decades of practice. This museum captures that spirit beautifully.”</p>
+        </article>
+        <article class="story">
+          <div class="author">
+            <img class="avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="">
+            <div><strong>A. Example</strong><div class="role">Corporate Counsel</div></div>
+          </div>
+          <p>“From faded photographs to landmark briefs — seeing it all in one place is powerful.”</p>
+        </article>
+        <article class="story">
+          <div class="author">
+            <img class="avatar" src="https://images.unsplash.com/photo-1543132220-5e6326c90e9b?q=80&w=200&auto=format&fit=crop" alt="">
+            <div><strong>Chinedu Example</strong><div class="role">Academia</div></div>
+          </div>
+          <p>“Our endowments started small. The timeline shows how steady service changes institutions.”</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="guestbook">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="tag">Guestbook</div>
+          <h2>Leave a note</h2>
+        </div>
+        <p>Interactive form and moderation live in the full build (PHP/Laravel). This is a read-only mock.</p>
+      </div>
+
+      <div class="stories">
+        <article class="story">
+          <div class="author">
+            <img class="avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&auto=format&fit=crop" alt="">
+            <div><strong>Visitor</strong><div class="role">Law Student</div></div>
+          </div>
+          <p>“Inspiring to see the Class of ’86 and their impact. Thank you for preserving this history.”</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Nigerian Law School Class of ’86 E‑Museum • Designed & curated by the Alumni Association
+  </footer>
+
+  <!-- LIGHTBOX / TOUR MODAL -->
+  <div id="lightbox" aria-hidden="true" style="position:fixed;inset:0;background:rgba(6,7,10,.86);backdrop-filter:blur(6px);display:none;z-index:100;">
+    <button id="closeLightbox" class="btn ghost" style="position:absolute;top:20px;right:20px">Close</button>
+    <div style="position:absolute;inset:0;display:grid;place-items:center;padding:40px">
+      <figure style="width:min(1100px,92vw);max-height:86vh;margin:0;display:grid;gap:10px;justify-items:center">
+        <div id="lightboxMedia" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;border:1px solid #2a2d36;background:#0e0f14"></div>
+        <figcaption id="lightboxCaption" style="color:#cfd3de"></figcaption>
+        <div style="display:flex;gap:10px">
+          <button class="btn ghost" id="prevItem" aria-label="Previous">◀</button>
+          <button class="btn ghost" id="nextItem" aria-label="Next">▶</button>
+        </div>
+      </figure>
+    </div>
+  </div>
+
+<script>
+  // Intersection reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} })
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Build media list from tour + gallery + directory + memoriam
+  const mediaNodes = [...document.querySelectorAll('[data-media]')];
+  const mediaList = mediaNodes.map(n => ({
+    url: n.getAttribute('data-media'),
+    type: n.getAttribute('data-type') || (/\.(mp4|webm|ogg)$/i.test(n.getAttribute('data-media')) ? 'video' : 'image'),
+    caption: n.getAttribute('data-caption') || ''
+  }));
+
+  // Lightbox logic
+  const lightbox = document.getElementById('lightbox');
+  const mediaBox = document.getElementById('lightboxMedia');
+  const caption = document.getElementById('lightboxCaption');
+  let idx = 0;
+
+  function openLightbox(startIndex=0){
+    idx = startIndex;
+    renderLightbox();
+    lightbox.style.display='block';
+    lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeLightbox(){
+    lightbox.style.display='none';
+    lightbox.setAttribute('aria-hidden','true');
+    mediaBox.innerHTML='';
+    document.body.style.overflow='';
+  }
+  function renderLightbox(){
+    const item = mediaList[idx];
+    mediaBox.innerHTML = item.type === 'video'
+      ? `<video src="${item.url}" controls autoplay playsinline style="max-height:80vh;max-width:100%"></video>`
+      : `<img src="${item.url}" alt="" style="max-height:80vh;max-width:100%;display:block"/>`;
+    caption.textContent = item.caption || '';
+  }
+  function next(){ idx = (idx+1) % mediaList.length; renderLightbox(); }
+  function prev(){ idx = (idx-1+mediaList.length) % mediaList.length; renderLightbox(); }
+
+  // Bind triggers
+  mediaNodes.forEach((node, i)=>{
+    node.addEventListener('click', ()=>openLightbox(i));
+    node.style.cursor='zoom-in';
+  });
+  document.querySelector('[data-open-tour]')?.addEventListener('click', ()=>openLightbox(0));
+  document.getElementById('closeLightbox').addEventListener('click', closeLightbox);
+  document.getElementById('nextItem').addEventListener('click', next);
+  document.getElementById('prevItem').addEventListener('click', prev);
+  document.addEventListener('keydown', (e)=>{
+    if(lightbox.getAttribute('aria-hidden')==='false'){
+      if(e.key==='Escape') closeLightbox();
+      if(e.key==='ArrowRight') next();
+      if(e.key==='ArrowLeft') prev();
+    }
+  });
+</script>
+</body>
+</html>
